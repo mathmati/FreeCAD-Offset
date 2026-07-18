@@ -80,6 +80,11 @@ class OffsetCommand(object):
         return App.ActiveDocument is not None and Gui.ActiveDocument is not None
 
     def Activated(self):
+        # Re-activation guard: without this a second toolbar click stacks a
+        # second SoEvent callback and application-level key filter on top of
+        # the first, which then double-fires events for the rest of the
+        # session.
+        self._teardown()
         doc = App.ActiveDocument
         self._view = Gui.ActiveDocument.ActiveView
         self.controller = OffsetController(doc, view=self._view)
@@ -151,8 +156,11 @@ class OffsetCommand(object):
             self._teardown()
             return True
         if key in (QtCore.Qt.Key_Return, QtCore.Qt.Key_Enter):
-            self.controller.key_return()
-            self._teardown()
+            # only end the session when the commit actually happened; on a
+            # friendly rejection (too small, collapse) the controller stays
+            # active so the user can adjust the distance and retry
+            if self.controller.key_return() is not None:
+                self._teardown()
             return True
         if key == QtCore.Qt.Key_Backspace:
             self.controller.key_backspace()
@@ -197,9 +205,15 @@ class OffsetCommand(object):
         state = arg.get("State")
         if state == "DOWN":
             if self.controller.active:
-                # second click while armed -> commit at current distance
-                self.controller.commit()
-                self._teardown()
+                # second click while armed -> commit at current distance;
+                # a friendly rejection keeps the session so the user can
+                # adjust and retry (drag state reset so the paired mouse-up
+                # does not immediately re-commit the rejected distance)
+                if self.controller.commit() is not None:
+                    self._teardown()
+                else:
+                    self._down_pos = None
+                    self._moved_since_arm = False
                 return
             obj, sub = self._preselection_pick()
             if obj is None:
@@ -212,8 +226,13 @@ class OffsetCommand(object):
                 self._moved_since_arm = False
         elif state == "UP":
             if self.controller.active and self._moved_since_arm:
-                self.controller.commit()
-                self._teardown()
+                if self.controller.commit() is not None:
+                    self._teardown()
+                else:
+                    # rejection (collapse / too small): stay armed for a
+                    # fresh drag instead of silently ending the tool
+                    self._down_pos = None
+                    self._moved_since_arm = False
 
     # -- helpers ----------------------------------------------------------
     def _preselection_pick(self):
