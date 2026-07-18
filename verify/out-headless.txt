@@ -1,0 +1,19 @@
+[ ok   1] setup: loose 20x20 face object is valid, planar, area 400
+[ ok   2] inward: offset_face(face, -2) returns an inner face and a ring
+[ ok   3] inward: inner is exactly 16x16 (area 256), normal follows the source
+[ ok   4] inward: ring area is exactly 400-256 = 144, planar, two wires
+[ ok   5] outward: +2 gives an exactly 24x24 outer face and a 176 ring band
+[ ok   6] circle: r=10 offset -3 gives inner area exactly pi*49 (circle kept)
+[ ok   7] L-shape: -1 keeps planarity and the analytic area (224) within 1%
+[ ok   8] placement: commit_offset adds OffsetInner/OffsetRing, source untouched
+[ ok   9] placement: the transaction undoes and redoes cleanly
+[ ok  10] typed path: '-2.5' + Enter commits an exact 15x15 OffsetInner
+[ ok  11] drag path: plane point gives signed distance; cancel leaves doc clean
+[ ok  12] refusal: a non-planar face gets the 'planar faces' message
+[ ok  13] refusal: a zero distance is rejected
+[ ok  14] refusal: a face with holes gets the v1-limit message
+[ ok  15] refusal: an inward offset that collapses the face is reported, doc clean
+[ ok  16] planar output: all products pass is_planar; solid faces keep exact sign
+----------------------------------------------------------------
+16/16 checks pass
+SYSTEM_EXIT code=0

@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <style>
+      .outer { fill:none; stroke:#3d6d8f; stroke-width:3.5; }
+      .inner { fill:#9fc9e8; stroke:#3d6d8f; stroke-width:3; }
+      .arrow { fill:none; stroke:#c0392b; stroke-width:4; stroke-linecap:round; stroke-linejoin:round; }
+    </style>
+  </defs>
+
+  <!-- original face boundary -->
+  <rect class="outer" x="8" y="8" width="48" height="48" />
+
+  <!-- offset boundary (shrunk inward) -->
+  <rect class="inner" x="21" y="21" width="22" height="22" />
+
+  <!-- inward drag arrow, top-left corner -->
+  <path class="arrow" d="M11 11 L20 20" />
+  <path class="arrow" d="M14.5 20 L20 20 L20 14.5" />
+</svg>

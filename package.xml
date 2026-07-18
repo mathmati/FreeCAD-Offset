@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<package format="1" xmlns="https://wiki.freecad.org/Package_Metadata">
+  <name>OffsetTool</name>
+  <description>SketchUp-style offset for FreeCAD. Click a planar face, drag inward or outward (or type an exact distance), and the face's boundary offsets in its own plane, producing the inner face and/or the surrounding ring as Part::Feature faces ready for Push/Pull.</description>
+  <version>0.1.0</version>
+  <date>2026-07-18</date>
+  <maintainer email="177616452+mathmati@users.noreply.github.com">mathmati</maintainer>
+  <license file="LICENSE">MIT</license>
+  <url type="repository" branch="main">https://github.com/mathmati/FreeCAD-Offset</url>
+  <url type="readme">https://github.com/mathmati/FreeCAD-Offset/raw/main/README.md</url>
+  <url type="bugtracker">https://github.com/mathmati/FreeCAD-Offset/issues</url>
+  <icon>Resources/Icons/offsettool.svg</icon>
+  <freecadmin>1.1.0</freecadmin>
+  <pythonmin>3.9</pythonmin>
+  <content>
+    <workbench>
+      <classname>OffsetWorkbench</classname>
+      <icon>Resources/Icons/offsettool.svg</icon>
+    </workbench>
+  </content>
+  <tag>part</tag>
+  <tag>direct-modeling</tag>
+  <tag>offset</tag>
+  <tag>ux</tag>
+  <tag>sketchup</tag>
+</package>
